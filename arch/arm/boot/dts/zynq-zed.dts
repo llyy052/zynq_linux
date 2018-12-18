@@ -18,9 +18,14 @@
 	model = "Zynq Zed Development Board";
 	compatible = "xlnx,zynq-zed", "xlnx,zynq-7000";
 
+	/*myled{
+		compatible = "dglnt,dled-1.00.a";
+		reg = <0x43c00000  0x10000>;
+	};*/
+
 	aliases {
 		ethernet0 = &gem0;
-		serial0 = &uart1;
+		serial0 = &uart0;
 		spi0 = &qspi;
 		mmc0 = &sdhci0;
 	};
@@ -97,7 +102,7 @@
 	status = "okay";
 };
 
-&uart1 {
+&uart0 {
 	status = "okay";
 };
 
