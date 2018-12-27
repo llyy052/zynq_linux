@@ -22,9 +22,9 @@
 		compatible = "dglnt,dled-1.00.a";
 		reg = <0x43c00000  0x10000>;
 	};*/
-			
-	/*i2ce1: i2c@41600000 {
-		compatible = "cdns,i2c-r1p10";
+
+	axi_i2c_0: axi-i2c@41600000 {
+		compatible = "xlnx,xps-iic-2.00.a";
 		status = "ok";
 		interrupt-parent = <&intc>;
 		interrupts = <0 29 4>;
@@ -32,23 +32,11 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		flash@40 {
+		cat9555@20 {
 			compatible = "atmel,24c08";
-			reg = <0x40>;
+			reg = <0x20>;
 		};		
-		flash@41 {
-			compatible = "atmel,24c256";
-			reg = <0x41>;
-		};
-		flash@47 {
-			compatible = "atmel,24c256";
-			reg = <0x47>;
-		};
-		flash@43 {
-			compatible = "atmel,24c256";
-			reg = <0x43>;
-		};
-	};*/
+	};
 
 	aliases {
 		ethernet0 = &gem0;
@@ -81,7 +69,7 @@
 	clock-frequency = <100000>;	
 	
 	eeprom@50 {
-		compatible = "atmel,24c02";
+		compatible = "atmel,24c256";
 		reg = <0x50>;
 	};
 };
