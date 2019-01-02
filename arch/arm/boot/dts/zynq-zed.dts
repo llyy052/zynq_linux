@@ -13,7 +13,9 @@
  */
 /dts-v1/;
 #include "zynq-7000.dtsi"
-
+/*
+#include "zynq-zed-pl.dtsi"
+*/
 / {
 	model = "Zynq Zed Development Board";
 	compatible = "xlnx,zynq-zed", "xlnx,zynq-7000";
@@ -22,22 +24,7 @@
 		compatible = "dglnt,dled-1.00.a";
 		reg = <0x43c00000  0x10000>;
 	};*/
-
-	axi_i2c_0: axi-i2c@41600000 {
-		compatible = "xlnx,xps-iic-2.00.a";
-		status = "ok";
-		interrupt-parent = <&intc>;
-		interrupts = <0 29 4>;
-		reg = <0x41600000 0x10000>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		cat9555@20 {
-			compatible = "atmel,24c08";
-			reg = <0x20>;
-		};		
-	};
-
+	
 	aliases {
 		ethernet0 = &gem0;
 		serial0 = &uart0;
@@ -62,17 +49,82 @@
 		view-port = <0x0170>;
 		drv-vbus;
 	};
+	/*ps7_axi_interconnect_0: axi@0 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "xlnx,ps7-axi-interconnect-1.00.a", "simple-bus";
+		ranges;
+		
+		axi_i2c_0: axi-i2c@41600000 {
+			compatible = "xlnx,xps-iic-2.00.a";
+			status = "ok";
+			clocks = <&clkc 15>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 32 4>;
+			reg = <0x41600000 0x10000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clock-frequency = <400000>;	
+
+			cat9555@20 {
+				compatible = "atmel,24c08";
+				reg = <0x20>;
+			};		
+		};
+		axi_i2c_1: axi-i2c@41610000 {
+			compatible = "xlnx,xps-iic-2.00.a";
+			status = "ok";
+			clocks = <&clkc 15>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 33 4>;
+			reg = <0x41610000 0x10000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clock-frequency = <400000>;	
+
+			cat9555@20 {
+				compatible = "atmel,24c08";
+				reg = <0x20>;
+			};		
+		};
+		axi_i2c_2: axi-i2c@41620000 {
+			compatible = "xlnx,xps-iic-2.00.a";
+			status = "ok";
+			clocks = <&clkc 15>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 34 4>;
+			reg = <0x41620000 0x10000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clock-frequency = <400000>;	
+
+			cat9555@20 {
+				compatible = "atmel,24c08";
+				reg = <0x20>;
+			};		
+		};		
+	};*/
 };
 
 &i2c1 {
 	status = "ok";
-	clock-frequency = <100000>;	
+	clock-frequency = <400000>;	
 	
 	eeprom@50 {
 		compatible = "atmel,24c256";
 		reg = <0x50>;
 	};
 };
+&i2c0 {
+	status = "ok";
+	clock-frequency = <400000>;	
+	
+	cat9555@50 {
+		compatible = "atmel,24c02";
+		reg = <0x20>;
+	};
+};
+
 
 &clkc {
 	ps-clk-frequency = <33333333>;
