@@ -217,6 +217,7 @@ static irqreturn_t cdns_i2c_isr(int irq, void *ptr)
 
 	isr_status = cdns_i2c_readreg(CDNS_I2C_ISR_OFFSET);
 	cdns_i2c_writereg(isr_status, CDNS_I2C_ISR_OFFSET);
+    printk("%s，isr_status:%x\r\n",__FUNCTION__,isr_status);
 
 	/* Handling nack and arbitration lost interrupt */
 	if (isr_status & (CDNS_I2C_IXR_NACK | CDNS_I2C_IXR_ARB_LOST)) {
@@ -294,6 +295,7 @@ static irqreturn_t cdns_i2c_isr(int irq, void *ptr)
 			/* Set the slave address in address register*/
 			cdns_i2c_writereg(id->p_msg->addr & CDNS_I2C_ADDR_MASK,
 						CDNS_I2C_ADDR_OFFSET);
+            printk("%s ,0x%x\r\n",__FUNCTION__,id->p_msg->addr);
 
 			if (id->recv_count > CDNS_I2C_TRANSFER_SIZE) {
 				cdns_i2c_writereg(CDNS_I2C_TRANSFER_SIZE,
@@ -434,7 +436,8 @@ static void cdns_i2c_mrecv(struct cdns_i2c *id)
 	/* Set the slave address in address register - triggers operation */
 	cdns_i2c_writereg(id->p_msg->addr & CDNS_I2C_ADDR_MASK,
 						CDNS_I2C_ADDR_OFFSET);
-	cdns_i2c_writereg(CDNS_I2C_ENABLED_INTR_MASK, CDNS_I2C_IER_OFFSET);
+	printk("%s ,0x%x\r\n",__FUNCTION__,id->p_msg->addr);
+    cdns_i2c_writereg(CDNS_I2C_ENABLED_INTR_MASK, CDNS_I2C_IER_OFFSET);
 }
 
 /**
@@ -496,7 +499,7 @@ static void cdns_i2c_msend(struct cdns_i2c *id)
 	/* Set the slave address in address register - triggers operation. */
 	cdns_i2c_writereg(id->p_msg->addr & CDNS_I2C_ADDR_MASK,
 						CDNS_I2C_ADDR_OFFSET);
-
+    printk("%s,0x%x \r\n",__FUNCTION__,id->p_msg->addr);
 	cdns_i2c_writereg(CDNS_I2C_ENABLED_INTR_MASK, CDNS_I2C_IER_OFFSET);
 }
 
@@ -529,7 +532,7 @@ static void cdns_i2c_slvmon(struct cdns_i2c *id)
 
 	/* Set the slave address to start the slave address transmission */
 	cdns_i2c_writereg(id->p_msg->addr, CDNS_I2C_ADDR_OFFSET);
-
+    printk("%s,0x%x\r\n",__FUNCTION__,id->p_msg->addr);
 	/* Setup slvmon interrupt flag */
 	cdns_i2c_writereg(CDNS_I2C_IXR_SLV_RDY, CDNS_I2C_IER_OFFSET);
 }
@@ -982,6 +985,7 @@ static int cdns_i2c_probe(struct platform_device *pdev)
 	}
 
 	r_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+    printk("%s,r_mem:%x \r\n",__FUNCTION__,r_mem->start);
 	id->membase = devm_ioremap_resource(&pdev->dev, r_mem);
 	if (IS_ERR(id->membase))
 		return PTR_ERR(id->membase);
