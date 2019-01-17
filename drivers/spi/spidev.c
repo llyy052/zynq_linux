@@ -584,7 +584,7 @@ static int spidev_open(struct inode *inode, struct file *filp)
 {
 	struct spidev_data	*spidev;
 	int			status = -ENXIO;
-
+    printk("%s \r\n",__func__);
 	mutex_lock(&device_list_lock);
 
 	list_for_each_entry(spidev, &device_list, device_entry) {
@@ -707,6 +707,7 @@ static int spidev_probe(struct spi_device *spi)
 	struct spidev_data	*spidev;
 	int			status;
 	unsigned long		minor;
+    printk("%s \r\n",__func__);
 
 	/*
 	 * spidev should never be referenced in DT without a specific

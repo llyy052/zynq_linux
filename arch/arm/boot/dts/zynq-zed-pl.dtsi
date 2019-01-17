@@ -71,7 +71,7 @@
 			interrupt-parent = <&intc>;
 			interrupts = <0 31 4>;
 			reg = <0x41620000 0x10000>;
-		};
+		};*/
 		axi_quad_spi_0: axi_quad_spi@41e00000 {
 			bits-per-word = <8>;
 			compatible = "xlnx,xps-spi-2.00.a";
@@ -82,8 +82,9 @@
 			reg = <0x41e00000 0x10000>;
 			xlnx,num-ss-bits = <0x1>;
 			xlnx,spi-mode = <0>;
+			/*ADS7952@0*/
 		};
-		axi_quad_spi_1: axi_quad_spi@41e10000 {
+		/*axi_quad_spi_1: axi_quad_spi@41e10000 {
 			bits-per-word = <8>;
 			compatible = "xlnx,xps-spi-2.00.a";
 			fifo-size = <16>;

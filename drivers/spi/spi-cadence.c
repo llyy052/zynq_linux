@@ -346,7 +346,7 @@ static irqreturn_t cdns_spi_irq(int irq, void *dev_id)
 	status = IRQ_NONE;
 	intr_status = cdns_spi_read(xspi, CDNS_SPI_ISR_OFFSET);
 	cdns_spi_write(xspi, CDNS_SPI_ISR_OFFSET, intr_status);
-
+    printk("%s intr_status=0x%x\r\n",__func__,intr_status);
 	if (intr_status & CDNS_SPI_IXR_MODF_MASK) {
 		/* Indicate that transfer is completed, the SPI subsystem will
 		 * identify the error as the remaining bytes to be
@@ -360,7 +360,7 @@ static irqreturn_t cdns_spi_irq(int irq, void *dev_id)
 		unsigned long trans_cnt;
 
 		trans_cnt = xspi->rx_bytes - xspi->tx_bytes;
-
+        printk("%s trans_cnt=%d\r\n",__func__,trans_cnt);
 		/* Read out the data from the RX FIFO */
 		while (trans_cnt) {
 			u8 data;
@@ -376,11 +376,13 @@ static irqreturn_t cdns_spi_irq(int irq, void *dev_id)
 		if (xspi->tx_bytes) {
 			/* There is more data to send */
 			cdns_spi_fill_tx_fifo(xspi);
+            printk("%s tx_bytes=%d\r\n",__func__,xspi->tx_bytes);
 		} else {
 			/* Transfer is completed */
 			cdns_spi_write(xspi, CDNS_SPI_IDR_OFFSET,
 				       CDNS_SPI_IXR_DEFAULT_MASK);
 			spi_finalize_current_transfer(master);
+            printk("%s Transfer is completed\r\n",__func__);
 		}
 		status = IRQ_HANDLED;
 	}
@@ -479,7 +481,7 @@ static int cdns_spi_probe(struct platform_device *pdev)
 	struct cdns_spi *xspi;
 	struct resource *res;
 	u32 num_cs;
-
+    printk("%s \r\n",__func__);
 	master = spi_alloc_master(&pdev->dev, sizeof(*xspi));
 	if (master == NULL)
 		return -ENOMEM;
